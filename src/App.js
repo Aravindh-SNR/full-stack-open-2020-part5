@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
+import Notification from './components/Notification';
 import Blogs from './components/Blogs';
 import LoginForm from './components/LoginForm';
 import './App.css';
-import Notification from './components/Notification';
 
 const App = () => {
   const initialUser = () => JSON.parse(localStorage.getItem('user') || null);
 
-  const [user, setUser] = useState(initialUser());
+  const [user, setUser] = useState(initialUser);
 
   const [message, setMessage] = useState(null);
   const [type, setType] = useState('');
