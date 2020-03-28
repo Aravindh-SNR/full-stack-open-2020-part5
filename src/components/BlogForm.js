@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import blogService from '../services/blogs';
 
-const BlogForm = ({ setBlogs, token, setMessage, setType }) => {
+const BlogForm = ({ setBlogs, token, setMessage, setType, hideBlogForm }) => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [url, setUrl] = useState('');
@@ -17,6 +17,7 @@ const BlogForm = ({ setBlogs, token, setMessage, setType }) => {
             setTitle('');
             setAuthor('');
             setUrl('');
+            hideBlogForm();
         } catch (exception) {
             setMessage(exception.response.data.error);
             setType('error');
@@ -25,7 +26,7 @@ const BlogForm = ({ setBlogs, token, setMessage, setType }) => {
 
     return (
         <div>
-            <h2>Create new</h2>
+            <h2>Create new blog</h2>
 
             <form onSubmit={createBlog}>
                 <div className='form-field'>
@@ -47,7 +48,7 @@ const BlogForm = ({ setBlogs, token, setMessage, setType }) => {
                 </div>
 
                 <div>
-                    <input type='submit' value='Create' />
+                    <button type='submit'>Create</button>
                 </div>
             </form>
         </div>

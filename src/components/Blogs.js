@@ -1,14 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Blog from './Blog';
 import blogService from '../services/blogs';
 import BlogForm from './BlogForm';
+import Togglable from './Togglable';
 
 const Blogs = ({ user, setUser, setMessage, setType }) => {
     const [blogs, setBlogs] = useState([]);
+    const blogFormRef = useRef();
 
     useEffect(() => {
         blogService.getAll().then(setBlogs);
     }, []);
+
+    const hideBlogForm = () => {
+        blogFormRef.current.toggleVisibility();
+    };
+
+    const updateLikes = async blog => {
+        try {
+            const updatedBlog = await blogService.update(blog.id, { likes: blog.likes + 1 });
+            setBlogs(blogs.map(item => item.id === blog.id ? updatedBlog : item));
+        } catch (exception) {
+            setMessage(exception.response.data.error);
+            setType('error');
+        }
+    };
 
     const logOut = () => {
         setUser(null);
@@ -23,13 +39,20 @@ const Blogs = ({ user, setUser, setMessage, setType }) => {
                 {user.name} logged in <button onClick={logOut}>Log out</button>
             </p>
 
-            <BlogForm setBlogs={setBlogs} token={user.token} setMessage={setMessage} setType={setType} />
+            <Togglable buttonLabel='Create new blog' ref={blogFormRef}>
+                <BlogForm setBlogs={setBlogs} token={user.token} setMessage={setMessage} setType={setType}
+                    hideBlogForm={hideBlogForm}
+                />
+            </Togglable>
 
-            <ul style={{padding: 0}}>
-                {blogs.map(blog =>
-                    <Blog key={blog.id} blog={blog} />
-                )}
-            </ul>
+            <div id='blogs'>
+                {
+                    []
+                        .concat(blogs)
+                        .sort((firstBlog, secondBlog) => secondBlog.likes - firstBlog.likes)
+                        .map(blog => <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />)
+                }
+            </div>
         </div>
     );
 };

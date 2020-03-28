@@ -38,7 +38,7 @@ const LoginForm = ({ setUser, setMessage, setType }) => {
                 </div>
 
                 <div>
-                    <input type='submit' value='Log in' />
+                    <button type='submit'>Log in</button>
                 </div>
             </form>
         </div>
