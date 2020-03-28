@@ -5,9 +5,7 @@ import LoginForm from './components/LoginForm';
 import './App.css';
 
 const App = () => {
-  const initialUser = () => JSON.parse(localStorage.getItem('user') || null);
-
-  const [user, setUser] = useState(initialUser);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
 
   const [message, setMessage] = useState(null);
   const [type, setType] = useState('');
