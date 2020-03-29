@@ -26,6 +26,22 @@ const Blogs = ({ user, setUser, setMessage, setType }) => {
         }
     };
 
+    const removeBlog = async blog => {
+        if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+            try {
+                const status = await blogService.remove(blog.id, user.token);
+                if (status === 204) {
+                    setBlogs(blogs.filter(item => item.id !== blog.id));
+                    setMessage(`Blog ${blog.title} by ${blog.author} removed`);
+                    setType('info');
+                }
+            } catch (exception) {
+                setMessage(exception.response.data.error);
+                setType('error');
+            }
+        }
+    };
+
     const logOut = () => {
         setUser(null);
         localStorage.clear();
@@ -50,7 +66,8 @@ const Blogs = ({ user, setUser, setMessage, setType }) => {
                     []
                         .concat(blogs)
                         .sort((firstBlog, secondBlog) => secondBlog.likes - firstBlog.likes)
-                        .map(blog => <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />)
+                        .map(blog => <Blog key={blog.id} blog={blog} username={user.username}
+                            updateLikes={updateLikes} removeBlog={removeBlog} />)
                 }
             </div>
         </div>

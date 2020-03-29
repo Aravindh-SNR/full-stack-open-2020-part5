@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog, updateLikes }) => {
+const Blog = ({ blog, username, updateLikes, removeBlog }) => {
   const [visibility, setVisibility] = useState(false);
 
   const toggleVisibility = () => {
@@ -23,9 +23,16 @@ const Blog = ({ blog, updateLikes }) => {
           <p>
             Link: <a href={blog.url} target='_blank' rel='noopener noreferrer'>{blog.url}</a>
           </p>
+
           <p>
             Likes: {blog.likes} <button onClick={() => updateLikes(blog)}>Like</button>
           </p>
+
+          <p>
+            Added by: {blog.user.name}
+          </p>
+
+          {blog.user.username === username && <button onClick={() => removeBlog(blog)}>Remove</button>}
         </div>
       }
     </div>
