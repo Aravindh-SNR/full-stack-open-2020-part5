@@ -19,11 +19,11 @@ const Notification = ({ message, type, setMessage, setType }) => {
 
     return (
         message ?
-        <div className={type}>
-            {message}
-        </div>
-        :
-        null
+            <div className={type}>
+                {message}
+            </div>
+            :
+            null
     );
 };
 

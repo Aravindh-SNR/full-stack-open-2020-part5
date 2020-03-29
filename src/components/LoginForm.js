@@ -19,7 +19,7 @@ const LoginForm = ({ setUser, setMessage, setType }) => {
             setMessage(exception.response.data.error);
             setType('error');
         }
-    }
+    };
 
     return (
         <div>
