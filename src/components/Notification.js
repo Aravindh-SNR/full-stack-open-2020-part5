@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 // Component to display a notification using the given message (and type, for stylistic purposes)
 
-const Notification = ({message, type, setMessage, setType}) => {
+const Notification = ({ message, type, setMessage, setType }) => {
 
     // Display notification message for 5 seconds
     useEffect(() => {
@@ -24,6 +25,13 @@ const Notification = ({message, type, setMessage, setType}) => {
         :
         null
     );
+};
+
+Notification.propTypes = {
+    message: PropTypes.string,
+    type: PropTypes.string.isRequired,
+    setMessage: PropTypes.func.isRequired,
+    setType: PropTypes.func.isRequired
 };
 
 export default Notification;
