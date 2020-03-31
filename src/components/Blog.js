@@ -17,17 +17,19 @@ const Blog = ({ blog, username, updateLikes, removeBlog }) => {
 
     return (
         <div style={blogStyle}>
-            {blog.title} | {blog.author} &nbsp;
-            <button onClick={toggleVisibility}>{visibility ? 'Hide' : 'View'}</button>
+            <div className='blog-heading'>
+                {blog.title} | {blog.author} &nbsp;
+                <button className='toggle-btn' onClick={toggleVisibility}>{visibility ? 'Hide' : 'View'}</button>
+            </div>
             {
                 visibility &&
-                <div>
+                <div className='blog-details'>
                     <p>
                       Link: <a href={blog.url} target='_blank' rel='noopener noreferrer'>{blog.url}</a>
                     </p>
 
                     <p>
-                      Likes: {blog.likes} <button onClick={() => updateLikes(blog)}>Like</button>
+                      Likes: {blog.likes} <button className='like-btn' onClick={() => updateLikes(blog)}>Like</button>
                     </p>
 
                     <p>
@@ -36,7 +38,7 @@ const Blog = ({ blog, username, updateLikes, removeBlog }) => {
 
                     {
                         blog.user.username === username &&
-                        <button onClick={() => removeBlog(blog)}>Remove</button>
+                        <button className='remove-btn' onClick={() => removeBlog(blog)}>Remove</button>
                     }
                 </div>
             }
