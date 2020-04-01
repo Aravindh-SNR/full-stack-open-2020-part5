@@ -25,7 +25,7 @@ const LoginForm = ({ setUser, setMessage, setType }) => {
         <div>
             <h2>Log in to the application</h2>
 
-            <form onSubmit={logIn}>
+            <form id='login-form' onSubmit={logIn}>
                 <div className='form-field'>
                     <label htmlFor='username'>Username: </label>
                     <input id='username' value={username} autoComplete='off' autoFocus required
@@ -39,7 +39,7 @@ const LoginForm = ({ setUser, setMessage, setType }) => {
                 </div>
 
                 <div>
-                    <button type='submit'>Log in</button>
+                    <button id='login-btn' type='submit'>Log in</button>
                 </div>
             </form>
         </div>
