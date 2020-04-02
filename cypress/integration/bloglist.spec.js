@@ -1,6 +1,12 @@
 describe('Bloglist app', function() {
     beforeEach(function() {
         cy.request('POST', 'http://localhost:3001/api/testing/reset');
+        const user = {
+            username: 'kent',
+            password: 'dev',
+            name: 'Kent C. Dodds'
+        };
+        cy.createUser(user);
         cy.visit('http://localhost:3000');
     });
 
@@ -13,15 +19,6 @@ describe('Bloglist app', function() {
     });
 
     describe('Login', function() {
-        beforeEach(function() {
-            const user = {
-                username: 'kent',
-                password: 'dev',
-                name: 'Kent C. Dodds'
-            };
-            cy.createUser(user);
-        });
-
         it('works for correct credentials', function() {
             cy.get('#username').type('kent');
             cy.get('#password').type('dev');
@@ -35,19 +32,14 @@ describe('Bloglist app', function() {
             cy.get('#login-btn').click();
             cy.get('.error')
                 .should('contain', 'Invalid username or password')
-                .should('have.css', 'color', 'rgb(255, 0, 0)');
+                .and('have.css', 'color', 'rgb(255, 0, 0)');
+            cy.get('html').should('not.contain', 'Kent C. Dodds logged in');
         });
     });
 
     describe('Blog creation', function() {
         beforeEach(function() {
-            const user = {
-                username: 'kent',
-                password: 'dev',
-                name: 'Kent C. Dodds'
-            };
-            cy.createUser(user);
-            cy.login(user);
+            cy.login({ username: 'kent', password: 'dev' });
         });
 
         it('works for a logged in user', function() {
@@ -70,13 +62,7 @@ describe('Bloglist app', function() {
 
     describe('Users', function() {
         beforeEach(function() {
-            const user = {
-                username: 'kent',
-                password: 'dev',
-                name: 'Kent C. Dodds'
-            };
-            cy.createUser(user);
-            cy.login(user);
+            cy.login({ username: 'kent', password: 'dev' });
 
             const blog = {
                 title: 'How to test custom React hooks',
@@ -118,13 +104,7 @@ describe('Bloglist app', function() {
 
     describe('Blogs', function() {
         beforeEach(function() {
-            const user = {
-                username: 'kent',
-                password: 'dev',
-                name: 'Kent C. Dodds'
-            };
-            cy.createUser(user);
-            cy.login(user);
+            cy.login({ username: 'kent', password: 'dev' });
         });
 
         it('are ordered according to number of likes starting with blogs with most likes', function() {
