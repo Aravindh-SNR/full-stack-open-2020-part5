@@ -53,7 +53,7 @@ const Blogs = ({ user, setUser, setMessage, setType }) => {
             <h2>Blogs</h2>
 
             <p>
-                {user.name} logged in <button onClick={logOut}>Log out</button>
+                {user.name} logged in <button id='logout-btn' onClick={logOut}>Log out</button>
             </p>
 
             <Togglable buttonLabel='Create new blog' ref={blogFormRef}>

@@ -1,25 +1,41 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.add('createUser', ({ username, password, name }) => {
+    cy.request({
+        url: 'http://localhost:3001/api/users',
+        method: 'POST',
+        body: { username, password, name }
+    });
+});
+
+Cypress.Commands.add('login', ({ username, password }) => {
+    cy.request({
+        url: 'http://localhost:3001/api/login',
+        method: 'POST',
+        body: { username, password }
+    }).then(({ body }) => {
+        localStorage.setItem('user', JSON.stringify(body));
+        cy.visit('http://localhost:3000');
+    });
+});
+
+Cypress.Commands.add('createBlog', blog => {
+    cy.request({
+        url: 'http://localhost:3001/api/blogs',
+        method: 'POST',
+        headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}` },
+        body: blog
+    }).then(({ body }) => {
+        cy.visit('http://localhost:3000');
+        return cy.wrap(body);
+    });
+});
+
+Cypress.Commands.add('likeBlog', blog => {
+    cy.request({
+        url: `http://localhost:3001/api/blogs/${blog.id}`,
+        method: 'PUT',
+        body: { likes: blog.likes + 1 }
+    }).then(({ body }) => {
+        cy.visit('http://localhost:3000');
+        return cy.wrap(body);
+    });
+});

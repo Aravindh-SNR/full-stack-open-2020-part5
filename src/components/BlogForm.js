@@ -49,7 +49,7 @@ const BlogForm = ({ setBlogs, token, setMessage, setType, hideBlogForm }) => {
                 </div>
 
                 <div>
-                    <button type='submit'>Create</button>
+                    <button id='create-blog-btn' type='submit'>Create</button>
                 </div>
             </form>
         </div>
